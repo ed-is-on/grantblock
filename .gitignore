@@ -1,0 +1,6 @@
+node_modules/
+logs/
+composer-logs/
+staging/
+dist/
+admin@grantblock.card

@@ -19,7 +19,7 @@ rule EducationCanReadEverything {
     description: "Allow all participants read access to all resources"
     participant: "com.usgov.ed.grants.Education"
     operation: READ
-    resource: "com.usgov.ed.grants.*"
+    resource: "com.usgov.ed.grants.Education"
     action: ALLOW
 }
 
