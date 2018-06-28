@@ -73,7 +73,6 @@ asset ActionRequest identified by requestId{
 
 transaction CreateGrantee {
   o String granteeId
-  o String granteeName
   o Long grantBalance optional
   o String pocName
   o String pocEmail
@@ -81,7 +80,6 @@ transaction CreateGrantee {
 
 transaction ImportGrantee {
   o String granteeId
-  o String granteeName
   o Long grantBalance
   o String pocName
   o String pocEmail
