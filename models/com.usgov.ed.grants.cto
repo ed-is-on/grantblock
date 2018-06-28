@@ -1,0 +1,125 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Write your model definitions here
+ */
+
+namespace com.usgov.ed.grants
+
+//Concepts
+
+concept Obligation{
+  o String granteeId
+  o Long allottedAmount
+}
+
+//Participants
+
+participant Education identified by userId{
+  o String userId
+  o String pocName
+  o String pocEmail
+}
+
+participant Treasury identified by userId{
+  o String userId
+  o String pocName
+  o String pocEmail
+}
+
+participant Grantee identified by granteeId{
+  o String granteeId
+  o Long grantBalance optional
+  o String pocName
+  o String pocEmail
+}
+
+//This might be how we would extend the grantee to differentiate between programs in a future //implementation if we needed more information
+/* abstract participant Grantee identified by granteeId{
+  o String granteeId
+  o Long grantBalance
+}
+participant program1grantee extends Grantee{
+}
+participant program2grantee extends Grantee{
+} */
+
+//Assets
+
+asset ActionRequest identified by requestId{
+  o String requestId
+  o Long requestValue
+  --> Grantee owner
+  o String validator1id
+  o Boolean vvalue1
+  o String validator2id
+  o Boolean vvalue2
+  o Boolean treasuryValidator
+
+}
+//transactions
+
+transaction CreateGrantee {
+  o String granteeId
+  o String granteeName
+  o Long grantBalance optional
+  o String pocName
+  o String pocEmail
+}
+
+transaction ImportGrantee {
+  o String granteeId
+  o String granteeName
+  o Long grantBalance
+  o String pocName
+  o String pocEmail
+}
+transaction ObligateSlate {
+  o Obligation[] slate
+}
+
+transaction CreateActionRequest {
+  o Long requestValue
+}
+
+transaction VerifyActionRequest {
+
+}
+
+transaction ApproveActionRequest {
+
+}
+
+transaction SetUpDemo {
+
+}
+//events
+
+event NotifyDisbursement  {
+
+}
+
+event NotifyApprovers {
+  --> ActionRequest req
+  o String verifierid
+}
+
+event NotifyTreasury  {
+  --> ActionRequest req
+}
+
+event ActionRequestMade {
+  --> ActionRequest req
+}
