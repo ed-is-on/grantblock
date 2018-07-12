@@ -17,42 +17,42 @@
  */
 rule EducationCanReadEverything {
     description: "Allow all participants read access to all resources"
-    participant: "com.usgov.ed.grants.Education"
+    participant: "com.usgov.grantblock.Education"
     operation: READ
-    resource: "com.usgov.ed.grants.Education"
+    resource: "com.usgov.grantblock.Education"
     action: ALLOW
 }
 
 rule TreasuryCanReadEverything  {
   description: "Allow all participants read access to all resources"
-    participant: "com.usgov.ed.grants.Treasury"
+    participant: "com.usgov.grantblock.Treasury"
     operation: READ
-    resource: "com.usgov.ed.grants.*"
+    resource: "com.usgov.grantblock.*"
     action: ALLOW
 }
 
 rule EducationCanSubmitTransactions {
   description: "Allow education to submit transactions and create everything"
-    participant: "com.usgov.ed.grants.Education"
+    participant: "com.usgov.grantblock.Education"
     operation: CREATE
-    resource: "com.usgov.ed.grants.*"
+    resource: "com.usgov.grantblock.*"
     action: ALLOW
 }
 
 rule GranteeHasFullAccessToTheirActionRequests {
     description: "Allow grantee to access their action requests"
-    participant(p): "com.usgov.ed.grants.Grantee"
+    participant(p): "com.usgov.grantblock.Grantee"
     operation: ALL
-    resource(r): "com.usgov.ed.grants.ActionRequest"
+    resource(r): "com.usgov.grantblock.ActionRequest"
     condition: (r.owner.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
 
 rule GranteeCanCreateActionRequests {
   description: "Allow grantee to create action requests"
-  participant:  "com.usgov.ed.grants.Grantee"
+  participant:  "com.usgov.grantblock.Grantee"
   operation: CREATE
-  resource: "com.usgov.ed.grants.CreateActionRequest"
+  resource: "com.usgov.grantblock.CreateActionRequest"
   action: ALLOW
 }
 

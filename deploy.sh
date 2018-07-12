@@ -1,6 +1,6 @@
 npm run prepublish
 composer network install -c PeerAdmin@hlfv1 -a dist/grantblock.bna
-composer network start -A admin -S adminpw -c PeerAdmin@hlfv1 -f admin@grantblock.card -n grantblock -V 0.0.1
+composer network start -A admin -S adminpw -c PeerAdmin@hlfv1 -f admin@grantblock.card -n grantblock -V 0.0.2495
 composer card import --file admin@grantblock.card
 composer network ping -c admin@grantblock
 

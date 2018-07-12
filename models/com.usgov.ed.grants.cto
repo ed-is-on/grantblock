@@ -16,7 +16,7 @@
  * Write your model definitions here
  */
 
-namespace com.usgov.ed.grants
+namespace com.usgov.grantblock
 
 //Concepts
 
@@ -44,6 +44,7 @@ participant Grantee identified by granteeId{
   o Long grantBalance optional
   o String pocName
   o String pocEmail
+  o Integer numActionReqs
 }
 
 //This might be how we would extend the grantee to differentiate between programs in a future //implementation if we needed more information
@@ -61,13 +62,10 @@ participant program2grantee extends Grantee{
 asset ActionRequest identified by requestId{
   o String requestId
   o Long requestValue
-  --> Grantee owner
-  o String validator1id
-  o Boolean vvalue1
-  o String validator2id
-  o Boolean vvalue2
+  --> Grantee owner optional
+  o Grantee[] assignedValidators
+  o Grantee[] approvedValidators
   o Boolean treasuryValidator
-
 }
 //transactions
 
@@ -78,18 +76,32 @@ transaction CreateGrantee {
   o String pocEmail
 }
 
+transaction CreateEdUser {
+  o String userId
+  o String pocName
+  o String pocEmail
+}
+
+transaction CreateTreasury {
+  o String userId
+  o String pocName
+  o String pocEmail
+}
 transaction ImportGrantee {
   o String granteeId
   o Long grantBalance
   o String pocName
   o String pocEmail
 }
+
 transaction ObligateSlate {
   o Obligation[] slate
 }
 
 transaction CreateActionRequest {
   o Long requestValue
+  o Integer validators
+  --> Grantee requestor
 }
 
 transaction VerifyActionRequest {
@@ -101,10 +113,10 @@ transaction ApproveActionRequest {
 }
 
 transaction SetUpDemo {
-
+  o Long grantBalance
 }
-//events
-
+//events -TODO
+/*
 event NotifyDisbursement  {
 
 }
@@ -121,3 +133,4 @@ event NotifyTreasury  {
 event ActionRequestMade {
   --> ActionRequest req
 }
+*/

@@ -1,6 +1,6 @@
 {
   "name": "grantblock",
-  "version": "0.0.1",
+  "version": "0.0.2495",
   "description": "This will serve as the foundation for the MVP of the grant disbursement project for the department of education.  The goal of this project is to audit grant action requests in real time, increasing efficiency and decreasing fraud and errors in the grants process.",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/grantblock.bna",
@@ -14,14 +14,15 @@
   "devDependencies": {
     "chai": "latest",
     "chai-as-promised": "latest",
-    "composer-admin": "^0.19.11",
-    "composer-cli": "^0.19.11",
-    "composer-client": "^0.19.11",
-    "composer-common": "^0.19.11",
-    "composer-connector-embedded": "^0.19.11",
-    "composer-cucumber-steps": "^0.19.11",
+    "composer-admin": "^0.19.12",
+    "composer-cli": "^0.19.12",
+    "composer-client": "^0.19.12",
+    "composer-common": "^0.19.12",
+    "composer-connector-embedded": "^0.19.12",
+    "composer-cucumber-steps": "^0.19.12",
     "cucumber": "^2.2.0",
     "eslint": "^5.0.1",
+    "lodash": "^4.17.10",
     "mkdirp": "latest",
     "mocha": "latest",
     "nyc": "latest"
