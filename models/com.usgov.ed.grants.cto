@@ -44,7 +44,7 @@ participant Grantee identified by granteeId{
   o Long grantBalance optional
   o String pocName
   o String pocEmail
-  o Integer numActionReqs
+  o Integer numActionReqs optional
 }
 
 //This might be how we would extend the grantee to differentiate between programs in a future //implementation if we needed more information

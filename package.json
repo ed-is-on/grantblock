@@ -1,6 +1,6 @@
 {
   "name": "grantblock",
-  "version": "0.0.2495",
+  "version": "0.0.24996",
   "description": "This will serve as the foundation for the MVP of the grant disbursement project for the department of education.  The goal of this project is to audit grant action requests in real time, increasing efficiency and decreasing fraud and errors in the grants process.",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/grantblock.bna",
