@@ -1,1 +1,1 @@
- composer-rest-server -c admin@grantblock -n never -w true
+ composer-rest-server -c admin@$1 -n never -w true

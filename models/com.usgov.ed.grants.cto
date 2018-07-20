@@ -44,7 +44,6 @@ participant Grantee identified by granteeId{
   o Long grantBalance optional
   o String pocName
   o String pocEmail
-  o Integer numActionReqs optional
 }
 
 //This might be how we would extend the grantee to differentiate between programs in a future //implementation if we needed more information
@@ -62,7 +61,7 @@ participant program2grantee extends Grantee{
 asset ActionRequest identified by requestId{
   o String requestId
   o Long requestValue
-  --> Grantee owner optional
+  --> Grantee owner
   o Grantee[] assignedValidators
   o Grantee[] approvedValidators
   o Boolean treasuryValidator
@@ -100,8 +99,12 @@ transaction ObligateSlate {
 
 transaction CreateActionRequest {
   o Long requestValue
-  o Integer validators
   --> Grantee requestor
+}
+
+transaction AddValidatingGrantees{
+    o Integer validators
+  --> ActionRequest request
 }
 
 transaction VerifyActionRequest {
