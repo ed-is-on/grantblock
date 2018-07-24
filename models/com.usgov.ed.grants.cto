@@ -25,6 +25,14 @@ concept Obligation{
   o Long allottedAmount
 }
 
+enum RequestStatus{
+  o INITIALIZED //the initial request has been created by the Grantee
+  o VALIDATORS_SELECTED //validators have been selected for the request
+  o VALIDATION_IN_PROGRESS  //one or more of the validators have approved, but not all of them
+  o APPROVED  //all validators have approved and the request is waiting on Treasury
+  o ADJUDICATED //once treasury has approved the request
+  o REJECTED  //if at any point something is rejected, this will become the request status
+}
 //Participants
 
 participant Education identified by userId{
@@ -46,26 +54,18 @@ participant Grantee identified by granteeId{
   o String pocEmail
 }
 
-//This might be how we would extend the grantee to differentiate between programs in a future //implementation if we needed more information
-/* abstract participant Grantee identified by granteeId{
-  o String granteeId
-  o Long grantBalance
-}
-participant program1grantee extends Grantee{
-}
-participant program2grantee extends Grantee{
-} */
-
 //Assets
 
 asset ActionRequest identified by requestId{
   o String requestId
+  o RequestStatus status
   o Long requestValue
   --> Grantee owner
   o Grantee[] assignedValidators
   o Grantee[] approvedValidators
   o Boolean treasuryValidator
 }
+
 //transactions
 
 transaction CreateGrantee {
@@ -102,17 +102,27 @@ transaction CreateActionRequest {
   --> Grantee requestor
 }
 
+event NotifyValidators{
+  --> ActionRequest request
+}
+
 transaction AddValidatingGrantees{
     o Integer validators
   --> ActionRequest request
 }
 
-transaction VerifyActionRequest {
-
+transaction ApproveActionRequest {
+  o Boolean approve
+  --> Grantee approver
+  --> ActionRequest request
 }
 
-transaction ApproveActionRequest {
+event NotifyRequestFailure{
+  --> ActionRequest request
+}
 
+event NotifyRequestSuccess{
+  --> ActionRequest request
 }
 
 transaction SetUpDemo {
