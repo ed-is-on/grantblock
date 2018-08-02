@@ -65,6 +65,7 @@ asset ActionRequest identified by requestId{
   o Grantee[] approvedValidators
   o Boolean treasuryValidator
   o String receiptImage optional  //this would be the link or pointer/hash for the receipt
+  o String receiptHash
 }
 
 //transactions
@@ -101,6 +102,7 @@ transaction ObligateSlate {
 transaction CreateActionRequest {
   o Long requestValue
   --> Grantee requestor
+  o String receiptHash optional
 }
 
 event NotifyValidators{
@@ -118,6 +120,7 @@ transaction ApproveActionRequest {
   --> Grantee approver
   --> ActionRequest request
   --> Grantee arOwner
+  o String receiptHash optional
 }
 
 event NotifyRequestFailure{
