@@ -1,0 +1,1 @@
+ composer-rest-server -c admin@$1 -n never -w true
