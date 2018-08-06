@@ -112,7 +112,7 @@ event NotifyValidators{
 transaction AddValidatingGrantees{
     o Integer validators
   --> ActionRequest request
-  --> Grantee arOwner
+  // --> Grantee arOwner --> fix the thing that made this an external req.
 }
 
 transaction ApproveActionRequest {
