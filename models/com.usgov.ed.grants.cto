@@ -58,12 +58,12 @@ participant Grantee identified by granteeId{
 
 asset ActionRequest identified by requestId{
   o String requestId
+  o DateTime creationDate
   o RequestStatus status
   o Long requestValue
   --> Grantee owner
   o Grantee[] assignedValidators
   o Grantee[] approvedValidators
-  o Boolean treasuryValidator
   o String receiptImage optional  //this would be the link or pointer/hash for the receipt
   o String receiptHash
 }
@@ -134,6 +134,26 @@ event NotifyRequestSuccess{
 transaction SetUpDemo {
   o Long grantBalance
 }
+
+transaction LoadScenario  {
+  o Grantee[] gList
+  o Education[] eList
+  o Treasury[] tList
+  o ActionRequest[] arList
+}
+
+//These will be query transactions
+
+//get all ARs for which a grantee is in assignedValidators
+transaction GetActionItems  {
+  --> Grantee grantee
+}
+
+//get all ARs for which a specific grantee is an owner
+transaction GetUserHistory  {
+  --> Grantee grantee
+}
+
 //events -TODO
 /*
 event NotifyDisbursement  {

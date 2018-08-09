@@ -1,0 +1,112 @@
+{
+    "$class": "com.usgov.grantblock.LoadScenario",
+    "gList": [
+        {
+            "$class": "com.usgov.grantblock.Grantee",
+            "granteeId": "g10",
+            "grantBalance": 33500,
+            "pocName": "Greg Grantee",
+            "pocEmail": "ggrant@college.edu"
+          },
+          {
+            "$class": "com.usgov.grantblock.Grantee",
+            "granteeId": "g11",
+            "grantBalance": 33500,
+            "pocName": "Greg Grantee",
+            "pocEmail": "ggrant@college.edu"
+          },
+          {
+            "$class": "com.usgov.grantblock.Grantee",
+            "granteeId": "g12",
+            "grantBalance": 33500,
+            "pocName": "Greg Grantee",
+            "pocEmail": "ggrant@college.edu"
+          },
+          {
+            "$class": "com.usgov.grantblock.Grantee",
+            "granteeId": "g13",
+            "grantBalance": 33500,
+            "pocName": "Greg Grantee",
+            "pocEmail": "ggrant@college.edu"
+          },
+          {
+            "$class": "com.usgov.grantblock.Grantee",
+            "granteeId": "g14",
+            "grantBalance": 33500,
+            "pocName": "Greg Grantee",
+            "pocEmail": "ggrant@college.edu"
+          },
+          {
+            "$class": "com.usgov.grantblock.Grantee",
+            "granteeId": "g15",
+            "grantBalance": 33500,
+            "pocName": "Greg Grantee",
+            "pocEmail": "ggrant@college.edu"
+          },
+          {
+            "$class": "com.usgov.grantblock.Grantee",
+            "granteeId": "g16",
+            "grantBalance": 33500,
+            "pocName": "Greg Grantee",
+            "pocEmail": "ggrant@college.edu"
+          },
+          {
+            "$class": "com.usgov.grantblock.Grantee",
+            "granteeId": "g17",
+            "grantBalance": 33500,
+            "pocName": "Greg Grantee",
+            "pocEmail": "ggrant@college.edu"
+          }
+    ],
+    "eList": [
+        {
+            "$class": "com.usgov.grantblock.Education",
+            "userId": "ed2",
+            "pocName": "Emma Education",
+            "pocEmail": "eedu@ed.gov"
+          }
+    ],
+    "tList": [
+        {
+            "$class": "com.usgov.grantblock.Treasury",
+            "userId": "treasury2",
+            "pocName": "Tommy Treasury",
+            "pocEmail": "ttreas@treasury.gov"
+          }
+    ],
+    "arList": [
+        {
+            "$class": "com.usgov.grantblock.ActionRequest",
+            "requestId": "g0AR20180809193215",
+            "creationDate": "2018-09-08T19:32:15.000Z",
+            "status": "VALIDATORS_SELECTED",
+            "requestValue": 1000,
+            "owner": "resource:com.usgov.grantblock.Grantee#Resource%20%7Bid=com.usgov.grantblock.Grantee#g0%7D",
+            "assignedValidators": [
+              {
+                "$class": "com.usgov.grantblock.Grantee",
+                "granteeId": "g4",
+                "grantBalance": 33500,
+                "pocName": "Greg Grantee",
+                "pocEmail": "ggrant@college.edu"
+              },
+              {
+                "$class": "com.usgov.grantblock.Grantee",
+                "granteeId": "g1",
+                "grantBalance": 33500,
+                "pocName": "Greg Grantee",
+                "pocEmail": "ggrant@college.edu"
+              },
+              {
+                "$class": "com.usgov.grantblock.Grantee",
+                "granteeId": "g5",
+                "grantBalance": 33500,
+                "pocName": "Greg Grantee",
+                "pocEmail": "ggrant@college.edu"
+              }
+            ],
+            "approvedValidators": [],
+            "receiptHash": "1234"
+          }
+    ]
+  }

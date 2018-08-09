@@ -1,0 +1,18 @@
+/*
+* Sample queries for Commodity Trading business network
+*/
+
+query selectGranteeARs {
+  description: "select all ARs that a specific grantee is listed as the owner of"
+  statement:
+      SELECT com.usgov.grantblock.ActionRequest
+          WHERE (owner == _$owner)
+}
+
+query selectARsForValidation {
+  description: "select all the ARs where a specific grantee is selected as a validator"
+  statement:
+      SELECT com.usgov.grantblock.ActionRequest
+        WHERE (assignedValidators CONTAINS [_$owner])
+}
+
