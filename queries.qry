@@ -9,10 +9,16 @@ query selectGranteeARs {
           WHERE (owner == _$owner)
 }
 
-query selectARsForValidation {
-  description: "select all the ARs where a specific grantee is selected as a validator"
-  statement:
-      SELECT com.usgov.grantblock.ActionRequest
-        WHERE (assignedValidators CONTAINS [_$owner])
-}
+// query selectARsForValidation {
+//   description: "select all the ARs where a specific grantee is selected as a validator"
+//   statement:
+//       SELECT com.usgov.grantblock.ActionRequest
+//         WHERE (assignedValidators CONTAINS _$validator)
+// }
 
+// query selectARsByDate {
+//   description: "Selects all of the action requests within a specific date range for a specific grantee"
+//   statement:
+//     SELECT com.usgov.grantblock.ActionRequest
+//       WHERE (_$date1 < creationDate < _$date2)
+// }

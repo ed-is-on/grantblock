@@ -18,12 +18,7 @@
 
 namespace com.usgov.grantblock
 
-//Concepts
-
-concept Obligation{
-  o String granteeId
-  o Long allottedAmount
-}
+//Concepts & Enums
 
 enum RequestStatus{
   o INITIALIZED //the initial request has been created by the Grantee
@@ -34,6 +29,7 @@ enum RequestStatus{
   o REJECTED  //if at any point something is rejected, this will become the request status
 }
 //Participants
+
 
 participant Education identified by userId{
   o String userId
@@ -49,68 +45,38 @@ participant Treasury identified by userId{
 
 participant Grantee identified by granteeId{
   o String granteeId
-  o Long grantBalance optional
+  o Double grantBalance optional
   o String pocName
   o String pocEmail
 }
 
 //Assets
 
+//Action Request - this is the record that a grantee creates when they ask to spend money
 asset ActionRequest identified by requestId{
   o String requestId
   o DateTime creationDate
   o RequestStatus status
-  o Long requestValue
+  o Double requestValue
   --> Grantee owner
   o Grantee[] assignedValidators
   o Grantee[] approvedValidators
   o String receiptImage optional  //this would be the link or pointer/hash for the receipt
   o String receiptHash
+  --> Obligation obligation optional
+}
+
+//Obligation - this is the record that gets created showing that department of ed has given a grantee x money for y purpose
+asset Obligation identified by obligationId {
+  o String obligationId
+  --> Grantee grantee
+  o Double allottedAmount
+  o String earmark_requirements
 }
 
 //transactions
-
-transaction CreateGrantee {
-  o String granteeId
-  o Long grantBalance optional
-  o String pocName
-  o String pocEmail
-}
-
-transaction CreateEdUser {
-  o String userId
-  o String pocName
-  o String pocEmail
-}
-
-transaction CreateTreasury {
-  o String userId
-  o String pocName
-  o String pocEmail
-}
-transaction ImportGrantee {
-  o String granteeId
-  o Long grantBalance
-  o String pocName
-  o String pocEmail
-}
-
-transaction ObligateSlate {
-  o Obligation[] slate
-}
-
-transaction CreateActionRequest {
-  o Long requestValue
-  --> Grantee requestor
-  o String receiptHash
-}
-
-event NotifyValidators{
-  --> ActionRequest request
-}
-
 transaction AddValidatingGrantees{
-    o Integer validators
+    o Integer validators default = 3
   --> ActionRequest request
   // --> Grantee arOwner --> fix the thing that made this an external req.
 }
@@ -123,16 +89,36 @@ transaction ApproveActionRequest {
   o String receiptHash optional
 }
 
-event NotifyRequestFailure{
-  --> ActionRequest request
+transaction CreateActionRequest {
+  o Double requestValue
+  --> Grantee requestor
+  o String receiptHash
 }
 
-event NotifyRequestSuccess{
-  --> ActionRequest request
+transaction CreateEdUser {
+  o String userId
+  o String pocName
+  o String pocEmail
 }
 
-transaction SetUpDemo {
-  o Long grantBalance
+transaction CreateGrantee {
+  o String granteeId
+  o Double grantBalance optional
+  o String pocName
+  o String pocEmail
+}
+
+transaction CreateTreasury {
+  o String userId
+  o String pocName
+  o String pocEmail
+}
+
+transaction ImportGrantee {
+  o String granteeId
+  o Double grantBalance
+  o String pocName
+  o String pocEmail
 }
 
 transaction LoadScenario  {
@@ -140,6 +126,17 @@ transaction LoadScenario  {
   o Education[] eList
   o Treasury[] tList
   o ActionRequest[] arList
+}
+
+//TODO - create an asset called Slate, and create transactions that can create one, add to one, and obligate the slate.
+// transaction ObligateSlate {
+//     o Obligation[] slate
+//     // o String granteeIds
+//     // o Double allottedAmounts
+// }
+
+transaction SetUpDemo {
+  // o Double grantBalance
 }
 
 //These will be query transactions
@@ -154,7 +151,25 @@ transaction GetUserHistory  {
   --> Grantee grantee
 }
 
+//gets the escrow balance for a grantee
+transaction GetEscrowBalance {
+ --> Grantee grantee
+}
+
 //events -TODO
+
+event NotifyValidators{
+  --> ActionRequest request
+}
+
+event NotifyRequestFailure{
+  --> ActionRequest request
+}
+
+event NotifyRequestSuccess{
+  --> ActionRequest request
+}
+
 /*
 event NotifyDisbursement  {
 
