@@ -17,131 +17,75 @@
  */
 
 //Education Rules
-rule EducationCanReadEverything {
-    description: "Allow all participants read access to all resources"
-    participant: "com.usgov.grantblock.Education"
-    operation: READ
-    resource: "com.usgov.grantblock.Education"
-    action: ALLOW
+rule EducationCanDoEverything {
+     description: "Allow all participants read access to all resources"
+     participant: "com.usgov.grantblock.Education"
+     operation: ALL
+     resource: "com.usgov.grantblock.*"
+     action: ALLOW
 }
 
-// rule EducationCanSubmitTransactions {
-//   description: "Allow education to submit transactions and create everything"
-//     participant: "com.usgov.grantblock.Education"
-//     operation: CREATE
-//     resource: "com.usgov.grantblock.*"
-//     action: ALLOW
-// }
-
-rule EducationHasReadAccessToActionRequests {
-  description: "Education participants can read the list of open action requests"
-  participant: "com.usgov.grantblock.Education"
-  operation: READ
-  resource: "com.usgov.grantblock.ActionRequest"
-  action: ALLOW
+rule GranteeCanCreateNewResourceActionRequests {
+	description: "allow grantees to create an access request"
+  	participant: "com.usgov.grantblock.Grantee"
+  	operation: ALL
+    resource: "com.usgov.grantblock.ActionRequest"
+  	action: ALLOW
 }
 
-rule EducationCannotCreateActionReqs  {
-  description: "Education participants cannot create action reqs b/c they should be giving that money to grantees"
-  participant: "com.usgov.grantblock.Education"
-  operation: CREATE, UPDATE
-  resource: "com.usgov.grantblock.ActionRequest"
-  transaction: "com.usgov.grantblock.CreateActionRequest"
-  action: DENY
-}
-
-rule EducationCanApproveActionReqsIfAssigned {
-  description: "Education participants cannot create action reqs b/c they should be giving that money to grantees"
-  participant(p): "com.usgov.grantblock.Education"
-  operation: CREATE, UPDATE
-  resource(r): "com.usgov.grantblock.ActionRequest"
-  transaction: "com.usgov.grantblock.ApproveActionRequest"
-  condition: (r.assignedValidators.contains(p))
-  action: ALLOW
-}
-
-//Grantee Rules
-
-//Grantee can READ ARs they own
-rule GranteeHasFullAccessToTheirActionRequests {
-    description: "Allow grantee to access their action requests"
-    participant(p): "com.usgov.grantblock.Grantee"
-    operation: READ
-    resource(r): "com.usgov.grantblock.ActionRequest"
-    condition: (r.owner.getIdentifier() === p.getIdentifier())
-    action: ALLOW
-}
-
-//Grantee can CREATE ARs
+//Grantee can CREATE / READ / UPDATE ARs
 rule GranteeCanCreateActionRequests {
   description: "Allow grantee to create action requests"
   participant:  "com.usgov.grantblock.Grantee"
-  operation: CREATE
+  operation: ALL
   resource: "com.usgov.grantblock.CreateActionRequest"
   action: ALLOW
 }
 
-//Grantees can UPDATE an AR they own
-rule GranteeCanUpdateAR {
-  description: "Grantees can UPDATE an AR they own"
-  participant(p):"com.usgov.grantblock.Grantee"
-  operation: UPDATE
-  resource(r): "com.usgov.grantblock.ActionRequest"
-  condition: (r.owner.getIdentifier() === p.getIdentifier())
+//Grantee can add validating grantees to an AR
+rule GranteeAddValidatingGrantees {
+	description: "Allow grantees to add validators to their action requests"
+  	participant: "com.usgov.grantblock.Grantee"
+  	operation: ALL
+    resource: "com.usgov.grantblock.AddValidatingGrantees"
+  	action: ALLOW
+}
+
+//Grantee can approve action requests
+rule GranteeApproveRequest {
+	description: "Allow grantees to approve an action request"
+  	participant: "com.usgov.grantblock.Grantee"
+  	operation: ALL
+    resource: "com.usgov.grantblock.ApproveActionRequest"
+  	action: ALLOW
+}
+//there have to be two rules here, one for creating the asset and one for accessing the transaction that creates the asset
+
+/*
+rule GranteeSeeUpdateThemselvesOnly {
+  description: "Grantee can see and update their own record only"
+  participant(t): "com.usgov.grantblock.Grantee"
+  operation: READ, UPDATE
+  resource(v): "com.usgov.grantblock.Grantee"
+  condition: (v.getIdentifier() == t.getIdentifier())
+  action: ALLOW
+}*/
+
+rule GranteesSeeEveryone {
+	description: "Grantees can see and update other grantees"
+  	participant: "com.usgov.grantblock.Grantee"
+  	operation: READ, UPDATE
+  	resource: "com.usgov.grantblock.Grantee"
+	action: ALLOW
+}
+
+rule EducationCanCreateGrantees {
+  description: ""
+  participant: "com.usgov.grantblock.Education"
+  operation: ALL
+  resource: "com.usgov.grantblock.*"
   action: ALLOW
 }
-
-//Grantees can READ ARs for which they are validators
-rule GranteesCanSeeARsTheyAreValidatorsOn {
-  description: "Allow grantees to access action requests for which they are assigned as a validator"
-  participant(p): "com.usgov.grantblock.Grantee"
-  operation: READ
-  resource(r): "com.usgov.grantblock.ActionRequest"
-  condition: (r.assignedValidators.contains(p))
-  action: ALLOW
-}
-
-//Grantees can READ CREATE UPDATE an ApproveActionRequest transaction for ARs for which they are validators
-rule GranteesCanValidateAppropriateTransactions {
-  description: "Grantees can READ CREATE UPDATE an ApproveActionRequest transaction for ARs for which they are validators"
-  participant(p): "com.usgov.grantblock.Grantee"
-  operation: READ, CREATE, UPDATE
-  resource(r): "com.usgov.grantblock.ActionRequest"
-  transaction(tx): "com.usgov.grantblock.ApproveActionRequest"
-  condition:(r.assignedValidators.contains(p))
-  action: ALLOW
-}
-
-//Grantees CANNOT submit an ApproveActionRequest transaction for ARs they own
-rule GranteesCannotSelfValidate {
-  description: "Grantees CANNOT submit an ApproveActionRequest transaction for ARs they own"
-  participant(p): "com.usgov.grantblock.Grantee"
-  operation: CREATE, UPDATE
-  resource(r): "com.usgov.grantblock.ActionRequest"
-  transaction(tx): "com.usgov.grantblock.ApproveActionRequest"
-  condition:(r.owner.getIdentifier() === p.getIdentifier())
-  action: DENY
-}
-
-//This rule is down here so as to not interfere with other rules. As of now it is untested.
-rule GranteeCannotSeeOtherReqs  {
-  description: "Allow grantee to access their action requests"
-    participant(p): "com.usgov.grantblock.Grantee"
-    operation: READ
-    resource(r): "com.usgov.grantblock.ActionRequest"
-    condition: (r.owner.getIdentifier() !== p.getIdentifier())
-    action: DENY
-}
-//Treasury Rules - not in scope of POC
-
-// rule TreasuryCanReadEverything  {
-//   description: "Allow all participants read access to all resources"
-//     participant: "com.usgov.grantblock.Treasury"
-//     operation: READ
-//     resource: "com.usgov.grantblock.*"
-//     action: ALLOW
-// }
-
 
 //system rules
 rule SystemACL {

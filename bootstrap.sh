@@ -158,3 +158,9 @@ echo 'Issuing an identity to Maria Hill...'
 composer identity issue -c admin@grantblock -f mhill@grantblock.card -u mhill -a resource:com.usgov.grantblock.Education#mhill -x false
 echo 'Importing mhill@grantblock.card...'
 composer card import --file mhill@grantblock.card
+
+echo 'Listing all entities on the network...'
+composer network list -c admin@grantblock
+
+echo 'Doing the list in another way...'
+composer identity list -c admin@grantblock

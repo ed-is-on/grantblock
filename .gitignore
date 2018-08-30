@@ -3,6 +3,7 @@ logs/
 composer-logs/
 staging/
 dist/
+package-lock.json
 admin@grantblock.card
 bwayne@grantblock.card
 ckent@grantblock.card

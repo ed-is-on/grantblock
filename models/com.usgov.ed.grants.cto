@@ -28,6 +28,10 @@ enum RequestStatus{
   o ADJUDICATED //once treasury has approved the request
   o REJECTED  //if at any point something is rejected, this will become the request status
 }
+
+concept arId {
+  o String requestId
+}
 //Participants
 
 
@@ -86,13 +90,14 @@ transaction ApproveActionRequest {
   --> Grantee approver
   --> ActionRequest request
   // --> Grantee arOwner
-  o String receiptHash optional
+  o String receiptHash default = "1234"
 }
 
+@returns(arId)
 transaction CreateActionRequest {
   o Double requestValue
   --> Grantee requestor
-  o String receiptHash
+  o String receiptHash default = "1234"
 }
 
 transaction CreateEdUser {
