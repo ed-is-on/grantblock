@@ -13,46 +13,77 @@
  */
 
 /**
- * Sample access control list.
+ * Access controls for grantblock
  */
-rule EducationCanReadEverything {
-    description: "Allow all participants read access to all resources"
-    participant: "com.usgov.grantblock.Education"
-    operation: READ
-    resource: "com.usgov.grantblock.Education"
-    action: ALLOW
+
+//Education Rules
+rule EducationCanDoEverything {
+     description: "Allow all participants read access to all resources"
+     participant: "com.usgov.grantblock.Education"
+     operation: ALL
+     resource: "com.usgov.grantblock.*"
+     action: ALLOW
 }
 
-rule TreasuryCanReadEverything  {
-  description: "Allow all participants read access to all resources"
-    participant: "com.usgov.grantblock.Treasury"
-    operation: READ
-    resource: "com.usgov.grantblock.*"
-    action: ALLOW
+rule GranteeCanCreateNewResourceActionRequests {
+	description: "allow grantees to create an access request"
+  	participant: "com.usgov.grantblock.Grantee"
+  	operation: ALL
+    resource: "com.usgov.grantblock.ActionRequest"
+  	action: ALLOW
 }
 
-rule EducationCanSubmitTransactions {
-  description: "Allow education to submit transactions and create everything"
-    participant: "com.usgov.grantblock.Education"
-    operation: CREATE
-    resource: "com.usgov.grantblock.*"
-    action: ALLOW
-}
-
-rule GranteeHasFullAccessToTheirActionRequests {
-    description: "Allow grantee to access their action requests"
-    participant(p): "com.usgov.grantblock.Grantee"
-    operation: ALL
-    resource(r): "com.usgov.grantblock.ActionRequest"
-    condition: (r.owner.getIdentifier() === p.getIdentifier())
-    action: ALLOW
-}
-
+//Grantee can CREATE / READ / UPDATE ARs
 rule GranteeCanCreateActionRequests {
   description: "Allow grantee to create action requests"
   participant:  "com.usgov.grantblock.Grantee"
-  operation: CREATE
+  operation: ALL
   resource: "com.usgov.grantblock.CreateActionRequest"
+  action: ALLOW
+}
+
+//Grantee can add validating grantees to an AR
+rule GranteeAddValidatingGrantees {
+	description: "Allow grantees to add validators to their action requests"
+  	participant: "com.usgov.grantblock.Grantee"
+  	operation: ALL
+    resource: "com.usgov.grantblock.AddValidatingGrantees"
+  	action: ALLOW
+}
+
+//Grantee can approve action requests
+rule GranteeApproveRequest {
+	description: "Allow grantees to approve an action request"
+  	participant: "com.usgov.grantblock.Grantee"
+  	operation: ALL
+    resource: "com.usgov.grantblock.ApproveActionRequest"
+  	action: ALLOW
+}
+//there have to be two rules here, one for creating the asset and one for accessing the transaction that creates the asset
+
+/*
+rule GranteeSeeUpdateThemselvesOnly {
+  description: "Grantee can see and update their own record only"
+  participant(t): "com.usgov.grantblock.Grantee"
+  operation: READ, UPDATE
+  resource(v): "com.usgov.grantblock.Grantee"
+  condition: (v.getIdentifier() == t.getIdentifier())
+  action: ALLOW
+}*/
+
+rule GranteesSeeEveryone {
+	description: "Grantees can see and update other grantees"
+  	participant: "com.usgov.grantblock.Grantee"
+  	operation: READ, UPDATE
+  	resource: "com.usgov.grantblock.Grantee"
+	action: ALLOW
+}
+
+rule EducationCanCreateGrantees {
+  description: ""
+  participant: "com.usgov.grantblock.Education"
+  operation: ALL
+  resource: "com.usgov.grantblock.*"
   action: ALLOW
 }
 
